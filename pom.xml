@@ -65,7 +65,7 @@
         <junit-jupiter.version>5.10.1</junit-jupiter.version>
 
         <!-- JDBC Drivers -->
-        <mysql-driver.version>8.1.0</mysql-driver.version>
+        <mysql-driver.version>5.1.44</mysql-driver.version>
         <postgresql-driver.version>42.6.0</postgresql-driver.version>
 
         <!-- Others -->
@@ -515,7 +515,7 @@
         <profile>
             <id>H2</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
                 <db.script>h2</db.script>
@@ -555,13 +555,16 @@
         </profile>
         <profile>
             <id>MySQL</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
                 <db.script>mysql</db.script>
                 <jpa.database>MYSQL</jpa.database>
-                <jdbc.driverClassName>com.mysql.cj.jdbc.Driver</jdbc.driverClassName>
-                <jdbc.url>jdbc:mysql://localhost:3306/petclinic?useUnicode=true</jdbc.url>
-                <jdbc.username>petclinic</jdbc.username>
-                <jdbc.password>petclinic</jdbc.password>
+                <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+                <!-- <jdbc.url>jdbc:mysql://ec2-13-201-167-6.ap-south-1.compute.amazonaws.com:3306/pet_clinic?useUnicode=true&useSSL=false</jdbc.url> -->
+                <jdbc.username>root</jdbc.username>
+                <jdbc.password>pet-clinic@569</jdbc.password>
             </properties>
             <dependencies>
                 <dependency>

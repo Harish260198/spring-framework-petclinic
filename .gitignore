@@ -13,6 +13,7 @@ bin/
 
 # Maven
 target/
+key-pair/
 
 # OS
 .DS_Store

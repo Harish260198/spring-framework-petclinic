@@ -1,0 +1,30 @@
+---
+- name: Ensure Java is installed
+  become: true
+  apt:
+    name: default-jdk  # Adjust for your Linux distribution
+
+- name: Download Apache Tomcat binary
+  get_url:
+    url: "https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.85/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+
+- name: Extract Tomcat archive
+  ansible.builtin.unarchive:
+    src: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "{{ tomcat_install_dir }}"
+    remote_src: true
+
+- name: Set ownership and permissions
+  file:
+    path: "{{ tomcat_install_dir }}"
+    state: directory
+    owner: ubuntu  # Adjust to your needs
+    group: ubuntu  # Adjust to your needs
+    mode: '0755'
+
+# - name: Start Tomcat service
+#   systemd:
+#     name: tomcat
+#     enabled: yes
+#     state: started

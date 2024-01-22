@@ -1,0 +1,35 @@
+---
+# - name: Playbook to Install MySQL on Amazon Linux
+#   hosts: mysql
+#   become: yes
+#   vars:
+#     mysql_root_password: Pet-clinic@123
+#     mysql_db_name: pet_clinic
+#     mysql_user: pet-clinic
+#     mysql_user_password: pet-clinic@569
+#   roles:
+#     - roles/install_mysql
+
+- name: Build a docker image
+  hosts: application
+  become: yes
+  vars:
+  roles:
+    - roles/install_mysql
+
+- name: Build a Docker image
+  become: true
+  shell: |
+      cd /opt/PETCLINIC/spring-framework-petclinic \
+      mvn jib:dockerBuild 
+  args:
+    executable: /bin/bash
+
+- name: Deploy a Docker image
+  become: true
+  shell: |
+      docker stop spring-framework-petclinic
+      docker rm spring-framework-petclinic
+      docker run -d --name spring-framework-petclinic -p 8080:8080 springcommunity/spring-framework-petclinic:6.1.2
+  args:
+    executable: /bin/bash

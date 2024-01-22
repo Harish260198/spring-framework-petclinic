@@ -1,0 +1,6 @@
+
+[application]
+ec2-15-206-88-47.ap-south-1.compute.amazonaws.com		 ansible_user=ubuntu
+
+[mysql]
+ec2-13-201-167-6.ap-south-1.compute.amazonaws.com		 ansible_user=ubuntu

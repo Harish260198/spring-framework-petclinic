@@ -1,0 +1,39 @@
+
+---
+# - name: Playbook to Install MySQL on Amazon Linux
+#   hosts: mysql
+#   become: yes
+#   vars:
+#     mysql_root_password: Pet-clinic@123
+#     mysql_db_name: pet_clinic
+#     mysql_user: pet-clinic
+#     mysql_user_password: pet-clinic@569
+#   roles:
+#     - roles/install_mysql
+
+- name: Install Nginx
+  hosts: application
+  become: yes
+  roles:
+    - roles/nginx
+
+- name: Install OpenJDK 17
+  hosts: application
+  become: yes
+  roles:
+    - roles/openjdk17
+
+- name: Install Maven
+  hosts: application
+  become: yes
+  roles:
+    - roles/maven
+
+- name: Install Apache Tomcat
+  hosts: application
+  become: yes  # Run tasks with elevated privileges (sudo)
+  roles:
+    - roles/tomcat
+  vars:
+    tomcat_version: 9.0.85
+    tomcat_install_dir: /opt/tomcat

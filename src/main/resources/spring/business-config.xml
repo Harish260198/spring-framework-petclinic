@@ -35,17 +35,14 @@
     <beans profile="jpa,spring-data-jpa">
         <!-- JPA EntityManagerFactory -->
         <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-              p:dataSource-ref="dataSource">
+            p:dataSource-ref="dataSource">
             <property name="jpaVendorAdapter">
                 <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
-                      p:database="${jpa.database}" p:showSql="${jpa.showSql}"/>
-                <!-- the 'database' parameter refers to the database dialect being used.
-                	By default, Hibernate will use a 'HSQL' dialect because 'jpa.database' has been set to 'HSQL'
-                	inside file spring/data-access.properties
-
-                 -->
+                    p:database="${jpa.database}" p:showSql="${jpa.showSql}">
+                    <!-- Move the property element inside the HibernateJpaVendorAdapter bean -->
+                    <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect"/>
+                </bean>
             </property>
-            <!-- gDickens: BOTH Persistence Unit and Packages to Scan are NOT compatible, persistenceUnit will win -->
             <property name="persistenceUnitName" value="petclinic"/>
             <property name="packagesToScan" value="org.springframework.samples.petclinic"/>
         </bean>

@@ -1,0 +1,48 @@
+---
+
+# - name: Execute multiple shell commands
+#   become: true
+#   shell: |
+#     # mkdir /opt/{{ PROJECT_NAME }} \
+#     && cd /opt/{{ PROJECT_NAME }} \
+#     # && git clone {{ REPO_URL }} \
+#     # && mkdir -p  /opt/builds/{{ PROJECT_NAME }} \
+#     && cd /opt/{{ PROJECT_NAME }} \
+#     && mvn package -Dmaven.test.skip=true \
+#     && cp -r target/*.war /opt/builds/{{ PROJECT_NAME }} /
+#   args:
+#     executable: /bin/bash
+
+- name: Git Pull Latest
+  become: true
+  shell: |
+    cd /opt/{{ PROJECT_NAME }}/spring-framework-petclinic \
+    && git reset --hard \
+    && git pull
+  args:
+    executable: /bin/bash
+
+
+- name: Build a {{ PROJECT_NAME }}
+  become: true
+  shell: |
+    cd /opt/{{ PROJECT_NAME }}/spring-framework-petclinic \
+    && sudo mvn package -Dmaven.test.skip=true -Denforcer.skip=true
+  args:
+    executable: /bin/bash
+
+- name: Build Artifact
+  become: true
+  shell: |
+    cd /opt/{{ PROJECT_NAME }}/spring-framework-petclinic \
+    && cp -r target/*.war /opt/builds/{{ PROJECT_NAME }}
+  args:
+    executable: /bin/bash
+
+- name: Permission to Artifact Location
+  become: true
+  shell: |
+      chmod -R 777 /opt/PETCLINIC/spring-framework-petclinic \
+      && chmod -R 777 /opt/builds/{{ PROJECT_NAME }}
+  args:
+    executable: /bin/bash

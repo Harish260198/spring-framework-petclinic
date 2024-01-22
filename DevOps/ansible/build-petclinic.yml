@@ -1,0 +1,8 @@
+---
+- name: build petclinic 
+  hosts: application
+  vars:
+    PROJECT_NAME: PETCLINIC
+    REPO_URL: https://github.com/Harish260198/spring-framework-petclinic.git
+  roles:
+    - roles/build
